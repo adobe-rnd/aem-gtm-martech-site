@@ -3,5 +3,5 @@ Please always provide the [GitHub issue(s)](../issues) your PR is for, as well a
 Fix #<gh-issue-id>
 
 Test URLs:
-- Before: https://main--{repo}--{owner}.aem.live/
-- After: https://<branch>--{repo}--{owner}.aem.live/
+- Before: https://main--aem-gtm-martech-site--adobe-rnd.aem.page
+- After: https://<branch>--aem-gtm-martech-site--adobe-rnd.aem.page
