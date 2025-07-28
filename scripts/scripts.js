@@ -15,8 +15,7 @@ import {
   toClassName,
   toCamelCase,
 } from './aem.js';
-import { eager, lazy, delayed } from './martech.js';
-
+import { eager, lazy } from './martech.js';
 
 /**
  * Builds hero block and prepends to main in a new section.

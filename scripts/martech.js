@@ -1,10 +1,10 @@
 import { getMetadata } from './aem.js';
-import { GtmMartech, pushToDataLayer } from '/plugins/gtm-martech/src/index.js';
-
+import { GtmMartech, pushToDataLayer } from '../plugins/gtm-martech/src/index.js';
 
 function consentCallback() {
   return new Promise((resolve) => {
     setTimeout(() => {
+      // eslint-disable-next-line no-console
       console.log('Updating Consent');
       resolve({
         ad_storage: 'denied',
@@ -27,11 +27,11 @@ function getPageMetadata() {
 
 function decorateHeader(el) {
   const base = { event: 'header', type: 'click' };
-  el.querySelectorAll('a').forEach(link => {
+  el.querySelectorAll('a').forEach((link) => {
     link.addEventListener('click', (e) => {
       pushToDataLayer({
         ...base,
-        label: e.currentTarget.textContent
+        label: e.currentTarget.textContent,
       });
     });
   });
@@ -42,15 +42,15 @@ function decorateBlock(el) {
 
   pushToDataLayer({
     event: 'block loaded',
-    type: blockName
+    type: blockName,
   });
 
   new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
+    entries.forEach((entry) => {
       if (entry.isIntersecting) {
         pushToDataLayer({
           event: 'block visible',
-          type: blockName
+          type: blockName,
         });
         observer.unobserve(entry.target);
       }
@@ -64,22 +64,22 @@ function decorateBlock(el) {
 
 function decorateSection(el) {
   const classes = [...el.classList];
-  const containers = classes.filter(cls => cls.endsWith('-container'));
-  
-  containers.forEach(container => {
+  const containers = classes.filter((cls) => cls.endsWith('-container'));
+
+  containers.forEach((container) => {
     pushToDataLayer({
-       event: 'section loaded',
-      type: container
+      event: 'section loaded',
+      type: container,
     });
   });
 
   new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
+    entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        containers.forEach(container => {
+        containers.forEach((container) => {
           pushToDataLayer({
             event: 'section visible',
-            type: container
+            type: container,
           });
         });
         observer.unobserve(entry.target);
@@ -92,9 +92,8 @@ function decorateEvents(el) {
   const classes = [...el.classList];
 
   // Find and remove the entry that equals "section" or "block"
-  const typeIndex = classes.findIndex(cls => cls === 'section' || cls === 'block');
+  const typeIndex = classes.findIndex((cls) => cls === 'section' || cls === 'block');
   const type = typeIndex !== -1 ? classes.splice(typeIndex, 1)[0] : null;
-  const base = { event: `${type} loaded` };
 
   if (type === 'block') {
     decorateBlock(el);
