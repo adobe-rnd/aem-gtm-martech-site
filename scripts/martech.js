@@ -1,4 +1,5 @@
 import { getMetadata } from './aem.js';
+// eslint-disable-next-line import/no-relative-packages
 import { GtmMartech, pushToDataLayer } from '../plugins/gtm-martech/src/index.js';
 
 function consentCallback() {
