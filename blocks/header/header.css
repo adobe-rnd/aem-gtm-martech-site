@@ -4,6 +4,7 @@ header .nav-wrapper {
   width: 100%;
   z-index: 2;
   position: fixed;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 header nav {
@@ -52,6 +53,7 @@ header nav p {
 }
 
 header nav a:any-link {
+  display: block;
   color: currentcolor;
 }
 
