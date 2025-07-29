@@ -108,9 +108,6 @@ const disabled = window.location.search.includes('martech=off');
 const { eager, lazy, delayed } = new GtmMartech({
   analytics: !disabled,
   tags: ['G-WCGDQMP9ZL'],
-  containers: {
-    lazy: ['GTM-T6V2QHKZ'],
-  },
   consent: !disabled,
   consentCallback,
   pageMetadata: getPageMetadata(),
