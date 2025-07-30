@@ -1,9 +1,0 @@
-coverage/
-logs/
-node_modules/
-
-.DS_Store
-*.bak
-.idea
-.env
-.npmrc
