@@ -15,7 +15,7 @@ import {
   toClassName,
   toCamelCase,
 } from './aem.js';
-import { eager, lazy } from './martech.js';
+import GtmMartech from './gtm-martech.js';
 
 /**
  * Builds hero block and prepends to main in a new section.
@@ -149,7 +149,7 @@ async function loadEager(doc) {
     decorateMain(main);
     doc.body.classList.add('appear');
     await Promise.all([
-      eager(),
+      GtmMartech.eager(),
       loadSection(main.querySelector('.section'), waitForFirstImage),
     ]);
   }
@@ -173,7 +173,7 @@ async function loadLazy(doc) {
 
   const main = doc.querySelector('main');
   await loadSections(main);
-  await lazy();
+  await GtmMartech.lazy();
   const { hash } = window.location;
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
   if (hash && element) element.scrollIntoView();

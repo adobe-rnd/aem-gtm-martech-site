@@ -1,6 +1,21 @@
 import { getMetadata } from './aem.js';
 // eslint-disable-next-line import/no-relative-packages
-import { GtmMartech, pushToDataLayer } from '../plugins/gtm-martech/src/index.js';
+import GtmMartech from '../plugins/gtm-martech/src/index.js';
+
+const disabled = window.location.search.includes('martech=off');
+
+const martech = new GtmMartech({
+  analytics: !disabled,
+  tags: ['G-WCGDQMP9ZL'],
+  containers: {
+    lazy: ['GTM-T6V2QHKZ'],
+  },
+  consent: !disabled,
+  consentCallback,
+  pageMetadata: getPageMetadata(),
+  decorateCallback: decorateEvents,
+});
+
 
 function consentCallback() {
   return new Promise((resolve) => {
@@ -30,7 +45,7 @@ function decorateHeader(el) {
   const base = { event: 'header', type: 'click' };
   el.querySelectorAll('a').forEach((link) => {
     link.addEventListener('click', (e) => {
-      pushToDataLayer({
+      martech.pushToDataLayer({
         ...base,
         label: e.currentTarget.textContent,
       });
@@ -41,7 +56,7 @@ function decorateHeader(el) {
 function decorateBlock(el) {
   const blockName = el.classList[0];
 
-  pushToDataLayer({
+  martech.pushToDataLayer({
     event: 'block loaded',
     type: blockName,
   });
@@ -49,7 +64,7 @@ function decorateBlock(el) {
   new IntersectionObserver((entries, observer) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        pushToDataLayer({
+        martech.pushToDataLayer({
           event: 'block visible',
           type: blockName,
         });
@@ -68,7 +83,7 @@ function decorateSection(el) {
   const containers = classes.filter((cls) => cls.endsWith('-container'));
 
   containers.forEach((container) => {
-    pushToDataLayer({
+    martech.pushToDataLayer({
       event: 'section loaded',
       type: container,
     });
@@ -78,7 +93,7 @@ function decorateSection(el) {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         containers.forEach((container) => {
-          pushToDataLayer({
+          martech.pushToDataLayer({
             event: 'section visible',
             type: container,
           });
@@ -103,18 +118,4 @@ function decorateEvents(el) {
   }
 }
 
-const disabled = window.location.search.includes('martech=off');
-
-const { eager, lazy, delayed } = new GtmMartech({
-  analytics: !disabled,
-  tags: ['G-WCGDQMP9ZL'],
-  containers: {
-    lazy: ['GTM-T6V2QHKZ'],
-  },
-  consent: !disabled,
-  consentCallback,
-  pageMetadata: getPageMetadata(),
-  decorateCallback: decorateEvents,
-});
-
-export { eager, lazy, delayed };
+export default martech
