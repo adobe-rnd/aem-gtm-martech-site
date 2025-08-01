@@ -1,3 +1,5 @@
+/* eslint-disable no-use-before-define */
+
 import { getMetadata } from './aem.js';
 // eslint-disable-next-line import/no-relative-packages
 import GtmMartech from '../plugins/gtm-martech/src/index.js';
@@ -15,7 +17,6 @@ const martech = new GtmMartech({
   pageMetadata: getPageMetadata(),
   decorateCallback: decorateEvents,
 });
-
 
 function consentCallback() {
   return new Promise((resolve) => {
@@ -118,4 +119,4 @@ function decorateEvents(el) {
   }
 }
 
-export default martech
+export default martech;
